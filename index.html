@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Básico en JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button.edit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        button.delete {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>CRUD Básico en JavaScript</h1>
+    <button id="fetch-data">Fetch Data</button>
+    <div id="data"></div>
+    <form id="taskForm">
+        <input type="text" id="taskInput" placeholder="Escribe una tarea" required>
+        <button type="submit">Agregar Tarea</button>
+    </form>
+    <table id="taskTable">
+        <thead>
+            <tr>
+                <th>Tarea</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <script src="app.js"></script>
+
+</body>
+</html>

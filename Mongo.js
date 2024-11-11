@@ -1,9 +1,5 @@
 // Import required modules
-/*
-Julian Esteban Collazos,
-Cindy Marcela Jimenez Saldarriaga
-Manuel Alejandro Grisales Pescador
-*/ 
+
 const express = require('express');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');

@@ -15,7 +15,7 @@ const app = express();
 const port = 3000; // You can use any port number you prefer
 
 // Your MongoDB Atlas connection URI
-const uri = "mongodb+srv://Mgrisales:1234@cluster0.dnnnm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = "";
 
 const DBCluster = 'RecursosHumanos';
 const CollectionDatabase = 'Empleados';

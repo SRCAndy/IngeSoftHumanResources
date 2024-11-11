@@ -14,3 +14,6 @@ Run command:
 	nodemon Mongo
 Access:
 	http://localhost:3000
+
+To see data:
+	http://localhost:3000/data

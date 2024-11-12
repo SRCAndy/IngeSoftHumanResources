@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const taskInput = document.getElementById('taskInput');
     const taskTable = document.getElementById('taskTable').querySelector('tbody');
     let tasks = [];
+
     
     console.log("Started")
 

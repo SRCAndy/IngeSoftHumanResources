@@ -11,7 +11,7 @@ const app = express();
 const port = 3000; // You can use any port number you prefer
 
 // Your MongoDB Atlas connection URI
-const uri = "";
+const uri = "mongodb+srv://Andy:Xkfq@cluster0.dnnnm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const DBCluster = 'RecursosHumanos';
 const CollectionDatabase = 'Empleados';
@@ -65,7 +65,7 @@ app.get('/data', async (req, res) => {
   
 // Serve the main HTML file
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html')); // Serve index.html from the root directory
+  res.sendFile(path.join(__dirname, 'index_nuevo.html')); // Serve index.html from the root directory
 });
 
 // Start the server

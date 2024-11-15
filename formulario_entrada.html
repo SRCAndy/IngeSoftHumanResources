@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Empleados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        form div {
+            margin-bottom: 10px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        form input, form select, form button {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+        }
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Formulario de Empleados</h1>
+
+    <!-- Formulario para agregar empleados -->
+    <form id="employeeForm">
+        <div>
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" required>
+        </div>
+        <div>
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" id="apellidos" required>
+        </div>
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" required>
+        </div>
+        <div>
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" required>
+        </div>
+        <div>
+            <label for="estadoCivil">Estado Civil:</label>
+            <select id="estadoCivil" required>
+                <option value="">Seleccione una opción</option>
+                <option value="Soltero">Soltero</option>
+                <option value="Casado">Casado</option>
+                <option value="Divorciado">Divorciado</option>
+                <option value="Viudo">Viudo</option>
+            </select>
+        </div>
+        <div>
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" required>
+        </div>
+        <div>
+            <label for="fechaNacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fechaNacimiento" required>
+        </div>
+        <div>
+            <label for="fechaIngreso">Fecha de Ingreso:</label>
+            <input type="date" id="fechaIngreso" required>
+        </div>
+        <div>
+            <label for="tipoContrato">Tipo de Contrato:</label>
+            <select id="tipoContrato" required>
+                <option value="">Seleccione una opción</option>
+                <option value="Indefinido">Indefinido</option>
+                <option value="Temporal">Temporal</option>
+            </select>
+        </div>
+        <button type="submit">Guardar Empleado</button>
+        <button type="button" onclick="window.location.href='index_nuevo.html'" style="background-color: #4CAF50; color: white; padding: 8px; font-size: 14px; border: none; border-radius: 4px; cursor: pointer;">Siguiente Página</button>
+    </form>
+
+    
+    <table id="employeeTable">
+        <tbody>
+            <!-- Los datos se agregarán dinámicamente -->
+        </tbody>
+    </table>
+
+    <script src="formulario_entrada.js"></script>
+</body>
+</html>

@@ -1,20 +1,19 @@
-// Import required modules
-
+// Importa los módulos necesarios
 const express = require('express');
 const path = require('path');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 
-// Create an instance of express
+// Crea una instancia de Express
 const app = express();
-const port = 3000; // You can use any port number you prefer
+const port = 3000; // Puerto donde se ejecutará el servidor
 
-// Your MongoDB Atlas connection URI
+// URI de conexión a MongoDB Atlas
 const uri = "mongodb+srv://Andy:Xkfq@cluster0.dnnnm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-const DBCluster = 'RecursosHumanos';
-const CollectionDatabase = 'Empleados';
+// Nombre de la base de datos y la colección
+const databaseName = 'RecursosHumanos';
+const collectionName = 'Empleados';
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -26,121 +25,118 @@ const client = new MongoClient(uri, {
 
 // Middleware
 app.use(express.json());
-app.use(cors()); // Enable CORS for cross-origin requests
+app.use(cors()); // Habilita CORS para solicitudes cross-origin
+app.use(express.static(__dirname)); // Sirve archivos estáticos desde el directorio actual
 
-// Serve static files from the root directory
-app.use(express.static(__dirname));
-
-
+// Conecta y devuelve la colección de empleados
 async function getCollection() {
     await client.connect();
-    const database = client.db(DBCluster);
-    return database.collection(CollectionDatabase);
+    const database = client.db(databaseName);
+    return database.collection(collectionName);
+}
+
+// Ruta para actualizar un empleado
+app.put('/data/:id', async (req, res) => {
+  const { id } = req.params; // Obtiene el ID del empleado desde los parámetros de la ruta
+  const updatedData = {
+      Nombre: req.body.Nombre,
+      Apellidos: req.body.Apellidos,
+  };
+
+  try {
+      const collection = await getCollection();
+      const result = await collection.updateOne(
+          { _id: new ObjectId(id) },
+          { $set: updatedData }
+      );
+
+      if (result.modifiedCount === 1) {
+          res.json({ message: 'Empleado actualizado con éxito' });
+      } else {
+          res.status(404).json({ message: 'Empleado no encontrado' });
+      }
+  } catch (error) {
+      console.error('Error al actualizar el empleado:', error);
+      res.status(500).json({ error: 'Error al actualizar el empleado' });
   }
+});
 
-
-// API route to fetch data from MongoDB
+// Ruta para obtener datos de empleados desde MongoDB
 app.get('/data', async (req, res) => {
     try {
-        // Connect to MongoDB
-        await client.connect();
-        const database = client.db(DBCluster); // Replace with your database name
-        const collection = database.collection(CollectionDatabase); // Replace with your collection name
-
-
+        const collection = await getCollection();
         
-        // Fetch data from MongoDB
+        // Obtén todos los documentos de la colección
         const documents = await collection.find({}).toArray();
 
-        // Send data as JSON response
+        // Devuelve los documentos como respuesta JSON
         res.json(documents);
-      } catch (error) {
-          console.error('Error fetching data:', error);
-          res.status(500).send('Error fetching data');
-      } finally {
-          // Close the client connection (optional, can be managed differently for persistent connections)
-          await client.close();
-      }
-  });
-  
-// Serve the main HTML file
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index_nuevo.html')); // Serve index.html from the root directory
-});
-
-// Start the server
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
-});
-
-app.put('/data/:id', async (req, res) => {
-    console.log("Database Stage")
-    
-    const id = req.params.id;
-    const updateData = req.body;
-
-    console.log("Id:", id);
-    console.log("Data:", updateData['Task']);
-
-    
-    try {
-      const collection = await getCollection();
-
-      const updateDocument = {
-        $set: {
-            Task: updateData.Task, // Use updateData.Task to set the correct field
-        },
-     };
-
-      const result = await collection.updateOne({ _id: new ObjectId(id.toString()) }, updateDocument);
-  
-      if (result.modifiedCount > 0) {
-        res.json({ message: 'Document updated' });
-      } else {
-        res.status(404).json({ message: 'Document not found' });
-      }
     } catch (error) {
-        console.log("Error on Database")
-      res.status(500).json({ error: error.message });
+        console.error('Error al obtener los datos:', error);
+        res.status(500).send('Error al obtener los datos');
     }
-  });
+});
 
+// Ruta para agregar un nuevo empleado
 app.post('/data', async (req, res) => {
-    const newTask = req.body.Task;
+    const newEmployee = {
+        Cedula: req.body.Cedula,
+        Apellidos: req.body.Apellidos,
+        Nombre: req.body.Nombre,
+        Telefono: req.body.Telefono,
+        EstadoCivil: req.body.EstadoCivil,
+        Direccion: req.body.Direccion,
+        FechaNacimiento: req.body.FechaNacimiento,
+        Cargo: req.body.Cargo,
+        FechaIngreso: req.body.FechaIngreso,
+        Salario: req.body.Salario,
+        HorasExtras: req.body.HorasExtras,
+        Arl: req.body.Arl,
+        TipoContrato: req.body.TipoContrato,
+        PruebaDesempeño: req.body.PruebaDesempeño,
+        FechaRetiro: req.body.FechaRetiro
+    };
 
     try {
         const collection = await getCollection();
-        const result = await collection.insertOne({ Task: newTask });
+        const result = await collection.insertOne(newEmployee);
 
         res.status(201).json({
-            message: 'Document added successfully',
+            message: 'Empleado agregado con éxito',
             documentId: result.insertedId,
         });
     } catch (error) {
-        console.error("Error adding document:", error.message);
+        console.error("Error al agregar el empleado:", error.message);
         res.status(500).json({ error: error.message });
     }
 });
 
-  
+// Ruta para eliminar un empleado
 app.delete('/data/:id', async (req, res) => {
-    const id = req.params.id;
-  
-    try {
+  const { id } = req.params; // Obtiene el ID del empleado desde los parámetros de la ruta
+
+  try {
       const collection = await getCollection();
-  
-      // Convert the string id to an ObjectId
       const result = await collection.deleteOne({ _id: new ObjectId(id) });
-  
-      if (result.deletedCount > 0) {
-        res.json({ message: 'Document deleted successfully' });
+
+      if (result.deletedCount === 1) {
+          res.json({ message: 'Empleado eliminado con éxito' });
       } else {
-        res.status(404).json({ message: 'Document not found' });
+          res.status(404).json({ message: 'Empleado no encontrado' });
       }
-    } catch (error) {
-      console.error('Error deleting document:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    } finally {
-      await client.close(); // Close the connection when done
-    }
+  } catch (error) {
+      console.error('Error al eliminar el empleado:', error);
+      res.status(500).json({ error: 'Error al eliminar el empleado' });
+  }
 });
+
+// Ruta para servir la página principal
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'formulario_entrada.html')); // Sirve el archivo HTML principal
+});
+
+// Inicia el servidor
+app.listen(port, () => {
+    console.log(`Servidor ejecutándose en http://localhost:${port}`);
+});
+

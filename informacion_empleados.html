@@ -3,8 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRUD Básico en JavaScript</title>
     <style>
+        .redirect-button {
+            /* Change these values to match your design */
+            background-color: #4CAF50;    /* Button color */
+            color: white;                 /* Text color */
+            padding: 10px 20px;          /* Button size */
+            border: none;                /* Border style */
+            border-radius: 4px;          /* Rounded corners */
+            cursor: pointer;             /* Hand cursor on hover */
+            font-size: 16px;            /* Text size */
+            font-weight: bold;          /* Text weight */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Optional shadow */
+        }
+        
+        .redirect-button:hover {
+            background-color: #45a049;    /* Darker shade on hover */
+            transform: translateY(-1px);  /* Slight lift effect */
+        }
+        
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -39,17 +56,18 @@
     </style>
 </head>
 <body>
-    <h1>CRUD Básico en JavaScript</h1>
-    <button id="fetch-data">Fetch Data</button>
+    <h1>Información Empleados</h1>
+    <button class="redirect-button" onclick="window.location.href='formulario_entrada.html'">Formulario</button>
     <div id="data"></div>
-    <form id="taskForm">
+    <!--<form id="taskForm">
         <input type="text" id="taskInput" placeholder="Escribe una tarea" required>
         <button type="submit">Agregar Tarea</button>
-    </form>
-    <table id="taskTable">
+    </form>-->
+    <table id="employeeTable">
         <thead>
             <tr>
-                <th>Tarea</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
                 <th>Acciones</th>
             </tr>
         </thead>

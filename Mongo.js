@@ -133,7 +133,7 @@ app.delete('/data/:id', async (req, res) => {
 
 // Ruta para servir la página principal
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'formulario_entrada.html')); // Sirve el archivo HTML principal
+    res.sendFile(path.join(__dirname, 'HTML/formulario_entrada.html')); // Sirve el archivo HTML principal
 });
 
 // Inicia el servidor

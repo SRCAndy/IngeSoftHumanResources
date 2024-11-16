@@ -36,3 +36,12 @@ th, td {
     padding: 10px;
     text-align: left;
 }
+#ButtonInformacionEmpleados{
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 8px; 
+    font-size: 14px; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer;
+}

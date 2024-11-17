@@ -131,7 +131,55 @@ document.addEventListener('DOMContentLoaded', function () {
          }
      }
     
+    async function Send_dataEmployee(employeeId) {
+        
+        const currentEmployee = employees.find(emp => emp.id === employeeId);
+
+        const data = {
+            nombre: currentEmployee.nombre,
+            apellidos: currentEmployee.apellidos,
+            cedula: currentEmployee.cedula,
+            FechaIngreso: currentEmployee.FechaIngreso,
+            TipoContrato: currentEmployee.TipoContrato
+        };
+        try {
+            // Realiza la solicitud POST al servidor
+            const response = await fetch("http://localhost:3000/informacion_empleados", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
     
+            if (!response.ok) {
+                throw new Error("Error al generar el contrato");
+            }
+    
+            // Convierte la respuesta a un Blob
+            const blob = await response.blob();
+    
+            // Crea una URL temporal para el Blob
+            const url = window.URL.createObjectURL(blob);
+    
+            // Crea un elemento <a> para descargar el archivo
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "contrato_modificado.docx"; // Nombre del archivo descargado
+            document.body.appendChild(a); // Añade temporalmente el elemento al DOM
+            a.click(); // Simula el clic para descargar
+            document.body.removeChild(a); // Elimina el elemento después de descargar
+    
+            // Libera la URL temporal
+            window.URL.revokeObjectURL(url);
+    
+            alert("Contrato generado y descargado exitosamente.");
+        } catch (error) {
+            console.error("Error al generar contrato:", error);
+            alert("Hubo un problema al generar el contrato.");
+        }
+        
+    }
 
     // Función para eliminar un empleado
     function deleteEmployee(employeeId) {
@@ -245,15 +293,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>
                     <button class="edit">Editar</button>
                     <button class="delete">Eliminar</button>
+                    <button class="generate">Contrato</button>
                 </td>
             `;
 
             const editBtn = row.querySelector('.edit');
             const deleteBtn = row.querySelector('.delete');
+            const generateBtn = row.querySelector('.generate');
 
             editBtn.addEventListener('click', () => editEmployee(emp.id));
             deleteBtn.addEventListener('click', () => deleteEmployee(emp.id));
-
+            generateBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
+                
             employeeTableBody.appendChild(row);
         });
     }

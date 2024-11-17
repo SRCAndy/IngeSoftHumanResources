@@ -47,3 +47,7 @@ button.delete {
     background-color: #f44336;
     color: white;
 }
+button.generate {
+    background-color: #0083fd;
+    color: white;
+}

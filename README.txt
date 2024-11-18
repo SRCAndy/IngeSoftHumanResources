@@ -12,6 +12,7 @@ Change CollectionDatabase name
 
 Run command:
 	nodemon Mongo
+	python -m uvicorn generar_contrato:app --reload
 Access:
 	http://localhost:3000
 

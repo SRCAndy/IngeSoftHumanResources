@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     employee._id,
                     employee.Cedula,
                     employee.Apellidos,
-                    employee.Nombre
+                    employee.Nombre,
+                    employee.Telefono
                 );
             });
 
@@ -52,12 +53,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Agrega un empleado a la lista
-    function addEmployeeToList(employeeId, cedula, apellidos, nombre) {
+    function addEmployeeToList(employeeId, cedula, apellidos, nombre, telefono) {
         employees.push({
             id: employeeId,
             cedula,
             apellidos,
             nombre,
+            telefono
         });
     }
 
@@ -132,19 +134,20 @@ document.addEventListener('DOMContentLoaded', function () {
      }
     
     async function Send_dataEmployee(employeeId) {
-        
         const currentEmployee = employees.find(emp => emp.id === employeeId);
-
+        // Datos de prueba básicos (puedes modificar esto para usar un ID específico)
         const data = {
-            nombre: currentEmployee.nombre,
-            apellidos: currentEmployee.apellidos,
-            cedula: currentEmployee.cedula,
-            FechaIngreso: currentEmployee.FechaIngreso,
-            TipoContrato: currentEmployee.TipoContrato
+            nombre: currentEmployee.nombre || "",
+            apellidos: currentEmployee.apellidos || "",
+            cedula: currentEmployee.cedula || "",
+            telefono: currentEmployee.telefono || "",
         };
+
+        console.log("Datos enviados al servidor:", JSON.stringify(data, null, 2));
+    
         try {
             // Realiza la solicitud POST al servidor
-            const response = await fetch("http://localhost:3000/informacion_empleados", {
+            const response = await fetch("http://localhost:8000/informacion_empleados", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -152,34 +155,72 @@ document.addEventListener('DOMContentLoaded', function () {
                 body: JSON.stringify(data),
             });
     
+            // Verifica si la respuesta fue exitosa
             if (!response.ok) {
-                throw new Error("Error al generar el contrato");
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
             }
     
-            // Convierte la respuesta a un Blob
-            const blob = await response.blob();
+            // Convierte la respuesta a JSON
+            const responseData = await response.json();
     
-            // Crea una URL temporal para el Blob
-            const url = window.URL.createObjectURL(blob);
-    
-            // Crea un elemento <a> para descargar el archivo
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "contrato_modificado.docx"; // Nombre del archivo descargado
-            document.body.appendChild(a); // Añade temporalmente el elemento al DOM
-            a.click(); // Simula el clic para descargar
-            document.body.removeChild(a); // Elimina el elemento después de descargar
-    
-            // Libera la URL temporal
-            window.URL.revokeObjectURL(url);
-    
-            alert("Contrato generado y descargado exitosamente.");
+            // Muestra los datos recibidos del servidor
+            console.log("Respuesta del servidor:", responseData);
+            alert("Conexión exitosa con el servidor.");
         } catch (error) {
-            console.error("Error al generar contrato:", error);
-            alert("Hubo un problema al generar el contrato.");
+            console.error("Error al intentar conectarse con el servidor:", error);
+            alert("Hubo un problema al conectar con el servidor.");
         }
-        
     }
+    
+    //  async function Send_dataEmployee(employeeId) {
+    //     // Encuentra el empleado por ID
+    //     const currentEmployee = employees.find(emp => emp.id === employeeId);
+    
+    //     // Preparar datos
+    //     const data = {
+    //         nombre: currentEmployee.nombre || "",
+    //         apellidos: currentEmployee.apellidos || "",
+    //         cedula: currentEmployee.cedula || "",
+    //         FechaIngreso: currentEmployee.FechaIngreso || "",
+    //         TipoContrato: currentEmployee.TipoContrato || "",
+    //     };
+    
+    //     console.log("Datos enviados al servidor:", data); // Debugging
+    
+    //     try {
+    //         // Realiza la solicitud POST al servidor
+    //         const response = await fetch("http://localhost:8000/informacion_empleados", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //             body: JSON.stringify(data),
+    //         });
+    
+    //         // Convierte la respuesta a un Blob
+    //         const blob = await response.blob();
+    
+    //         // Crea una URL temporal para el Blob
+    //         const url = window.URL.createObjectURL(blob);
+    
+    //         // Crea un elemento <a> para descargar el archivo
+    //         const a = document.createElement("a");
+    //         a.href = url;
+    //         // a.download = "contrato_modificado.docx"; // Nombre del archivo descargado
+    //         // document.body.appendChild(a); // Añade temporalmente el elemento al DOM
+    //         // a.click(); // Simula el clic para descargar
+    //         // document.body.removeChild(a); // Elimina el elemento después de descargar
+    
+    //         // Libera la URL temporal
+    //         window.URL.revokeObjectURL(url);
+    
+    //         alert("Contrato generado y descargado exitosamente.");
+    //     } catch (error) {
+    //         console.error("Error al intentar generar el contrato:", error);
+    //         alert("Hubo un problema al generar el contrato.");
+    //     }
+    // }
+    
 
     // Función para eliminar un empleado
     function deleteEmployee(employeeId) {

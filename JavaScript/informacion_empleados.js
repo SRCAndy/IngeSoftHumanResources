@@ -28,7 +28,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     employee.Cedula,
                     employee.Apellidos,
                     employee.Nombre,
-                    employee.Telefono
+                    employee.Telefono,
+                    employee.Cargo,
+                    employee.Direccion,
+                    employee.FechaIngreso,
+                    employee.TipoContrato,
+                    employee.Salario
                 );
             });
 
@@ -53,13 +58,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Agrega un empleado a la lista
-    function addEmployeeToList(employeeId, cedula, apellidos, nombre, telefono) {
+    function addEmployeeToList(employeeId, cedula, apellidos, nombre, telefono, cargo, direccion, fechaingreso, tipocontrato, salario) {
         employees.push({
             id: employeeId,
             cedula,
             apellidos,
             nombre,
-            telefono
+            telefono,
+            cargo,
+            direccion,
+            fechaingreso,
+            tipocontrato,
+            salario
         });
     }
 
@@ -141,10 +151,13 @@ document.addEventListener('DOMContentLoaded', function () {
             apellidos: currentEmployee.apellidos || "",
             cedula: currentEmployee.cedula || "",
             telefono: currentEmployee.telefono || "",
+            direccion: currentEmployee.direccion || "",
+            cargo: currentEmployee.cargo || "",
+            fechaingreso: currentEmployee.fechaingreso || "",
+            tipocontrato:currentEmployee.tipocontrato || "",
+            salario:currentEmployee.salario || ""
         };
-
-        console.log("Datos enviados al servidor:", JSON.stringify(data, null, 2));
-    
+        console.log(JSON.stringify(data))
         try {
             // Realiza la solicitud POST al servidor
             const response = await fetch("http://localhost:8000/informacion_empleados", {
@@ -154,18 +167,19 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify(data),
             });
-    
+            
             // Verifica si la respuesta fue exitosa
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.statusText}`);
             }
-    
+            
             // Convierte la respuesta a JSON
-            const responseData = await response.json();
-    
+            
+            
             // Muestra los datos recibidos del servidor
-            console.log("Respuesta del servidor:", responseData);
+            
             alert("Conexión exitosa con el servidor.");
+            
         } catch (error) {
             console.error("Error al intentar conectarse con el servidor:", error);
             alert("Hubo un problema al conectar con el servidor.");

@@ -11,7 +11,7 @@ app = FastAPI(debug=True)
 # Configurar CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Orígenes permitidos
+    allow_origins=["http://localhost:5000"],  # Orígenes permitidos
     allow_credentials=True,
     allow_methods=["*"],  # Métodos permitidos
     allow_headers=["*"],  # Encabezados permitidos
@@ -27,6 +27,7 @@ class EmployeeData(BaseModel):
     tipocontrato: Optional[str]
     direccion: Optional[str]
     salario: Optional[str]
+    selector: Optional[str]
     
 def modificar_contrato(nombre, apellidos, telefono, cedula, direccion, cargo, fechaingreso, tipocontrato, salario, output_path="contrato_modificado.docx"):
     plantilla_path = "contrato_plantilla.docx"
@@ -106,23 +107,51 @@ def modificar_certificado(nombre, apellidos, telefono, cedula, direccion, cargo,
     doc.save(output_path)
     print(f"Documento generado: {output_path}")
 
-@app.post("/contrato")
+@app.post("/documentos")
 async def generar_contrato(data: EmployeeData):
     print(f"Datos recibidos: {data.model_dump()}")  # Depuración
     try:
         output_path = "contrato_modificado.docx"
-        modificar_contrato(
-            nombre=data.nombre,
-            apellidos=data.apellidos,
-            telefono=data.telefono,
-            cedula=data.cedula,
-            direccion=data.direccion,
-            cargo=data.cargo,
-            fechaingreso=data.fechaingreso,
-            tipocontrato=data.tipocontrato,
-            salario=data.salario,
-            output_path=output_path
-        )
+        selector=data.selector
+        if selector=='1':
+            modificar_contrato(
+                nombre=data.nombre,
+                apellidos=data.apellidos,
+                telefono=data.telefono,
+                cedula=data.cedula,
+                direccion=data.direccion,
+                cargo=data.cargo,
+                fechaingreso=data.fechaingreso,
+                tipocontrato=data.tipocontrato,
+                salario=data.salario,
+                output_path=output_path
+            )
+        if selector=='2':
+            modificar_afiliacion(
+                nombre=data.nombre,
+                apellidos=data.apellidos,
+                telefono=data.telefono,
+                cedula=data.cedula,
+                direccion=data.direccion,
+                cargo=data.cargo,
+                fechaingreso=data.fechaingreso,
+                tipocontrato=data.tipocontrato,
+                salario=data.salario,
+                output_path=output_path
+            )
+        if selector=='3':
+            modificar_certificado(
+                nombre=data.nombre,
+                apellidos=data.apellidos,
+                telefono=data.telefono,
+                cedula=data.cedula,
+                direccion=data.direccion,
+                cargo=data.cargo,
+                fechaingreso=data.fechaingreso,
+                tipocontrato=data.tipocontrato,
+                salario=data.salario,
+                output_path=output_path
+            )
         print("Contrato generado con éxito.")  # Registro de éxito
         if not os.path.exists(output_path):
             raise HTTPException(status_code=500, detail="Error al generar el archivo.")

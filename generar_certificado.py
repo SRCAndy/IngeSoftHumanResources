@@ -29,7 +29,7 @@ class EmployeeData(BaseModel):
     salario: Optional[str]
     
 def modificar_contrato(nombre, apellidos, telefono, cedula, direccion, cargo, fechaingreso, tipocontrato, salario, output_path="contrato_modificado.docx"):
-    plantilla_path = "contrato_plantilla.docx"
+    plantilla_path = "PlantillaContrato\contrato_plantilla.docx"
     doc = Document(plantilla_path)
 
     for paragraph in doc.paragraphs:
@@ -54,59 +54,7 @@ def modificar_contrato(nombre, apellidos, telefono, cedula, direccion, cargo, fe
     doc.save(output_path)
     print(f"Documento generado: {output_path}")
 
-def modificar_afiliacion(nombre, apellidos, telefono, cedula, direccion, cargo, fechaingreso, tipocontrato, salario, output_path="contrato_modificado.docx"):
-    plantilla_path = "contrato_plantilla.docx"
-    doc = Document(plantilla_path)
-
-    for paragraph in doc.paragraphs:
-        if "{{NOMBRE}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{NOMBRE}}", nombre)
-        if "{{APELLIDO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{APELLIDO}}", apellidos)
-        if "{{TELEFONO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{TELEFONO}}}", telefono)
-        if "{{CEDULA}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{CEDULA}}", cedula)
-        if "{{DIRECCION}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{DIRECCION}}", direccion)    
-        if "{{CARGO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{CARGO}}", cargo) 
-        if "{{FECHAINGRESO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{FECHAINGRESO}}", fechaingreso)
-        if "{{TIPOCONTRATO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{TIPOCONTRATO}}", tipocontrato)
-        if "{{SALARIO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{SALARIO}}", salario)
-    doc.save(output_path)
-    print(f"Documento generado: {output_path}")
-
-def modificar_certificado(nombre, apellidos, telefono, cedula, direccion, cargo, fechaingreso, tipocontrato, salario, output_path="contrato_modificado.docx"):
-    plantilla_path = "contrato_plantilla.docx"
-    doc = Document(plantilla_path)
-
-    for paragraph in doc.paragraphs:
-        if "{{NOMBRE}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{NOMBRE}}", nombre)
-        if "{{APELLIDO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{APELLIDO}}", apellidos)
-        if "{{TELEFONO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{TELEFONO}}}", telefono)
-        if "{{CEDULA}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{CEDULA}}", cedula)
-        if "{{DIRECCION}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{DIRECCION}}", direccion)    
-        if "{{CARGO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{CARGO}}", cargo) 
-        if "{{FECHAINGRESO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{FECHAINGRESO}}", fechaingreso)
-        if "{{TIPOCONTRATO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{TIPOCONTRATO}}", tipocontrato)
-        if "{{SALARIO}}" in paragraph.text:
-            paragraph.text = paragraph.text.replace("{{SALARIO}}", salario)
-    doc.save(output_path)
-    print(f"Documento generado: {output_path}")
-
-@app.post("/contrato")
+@app.post("/informacion_empleados")
 async def generar_contrato(data: EmployeeData):
     print(f"Datos recibidos: {data.model_dump()}")  # Depuración
     try:

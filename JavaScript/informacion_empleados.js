@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(JSON.stringify(data))
         try {
             // Realiza la solicitud POST al servidor
-            const response = await fetch("http://localhost:8000/informacion_empleados", {
+            const response = await fetch("http://localhost:8000/contrato", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -349,16 +349,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     <button class="edit">Editar</button>
                     <button class="delete">Eliminar</button>
                     <button class="generate">Contrato</button>
+                    <button class="afiliation">Afiliacion</button>
+                    <button class="certificate">Certificado</button>
                 </td>
             `;
 
             const editBtn = row.querySelector('.edit');
             const deleteBtn = row.querySelector('.delete');
             const generateBtn = row.querySelector('.generate');
+            const afiliationBtn = row.querySelector('.generate');
+            const certificateBtn = row.querySelector('.generate');
 
             editBtn.addEventListener('click', () => editEmployee(emp.id));
             deleteBtn.addEventListener('click', () => deleteEmployee(emp.id));
             generateBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
+            afiliationBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
+            certificateBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
                 
             employeeTableBody.appendChild(row);
         });

@@ -47,3 +47,17 @@ button.delete {
     background-color: #f44336;
     color: white;
 }
+button.generate {
+    background-color: #0083fd;
+    color: white;
+}
+
+button.afiliation {
+    background-color: #0083fd;
+    color: white;
+}
+
+button.certificate {
+    background-color: #0083fd;
+    color: white;
+}

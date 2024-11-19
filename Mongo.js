@@ -6,7 +6,7 @@ const cors = require('cors');
 
 // Crea una instancia de Express
 const app = express();
-const port = 3000; // Puerto donde se ejecutará el servidor
+const port = 5000; // Puerto donde se ejecutará el servidor
 
 // URI de conexión a MongoDB Atlas
 const uri = "mongodb+srv://Andy:Xkfq@cluster0.dnnnm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";

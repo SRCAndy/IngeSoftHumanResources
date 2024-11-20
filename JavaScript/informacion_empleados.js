@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function () {
          }
      }
     
-    async function Send_dataEmployee(employeeId) {
+    async function Send_dataEmployee(employeeId, selector) {
         const currentEmployee = employees.find(emp => emp.id === employeeId);
         // Datos de prueba básicos (puedes modificar esto para usar un ID específico)
         const data = {
@@ -155,12 +155,15 @@ document.addEventListener('DOMContentLoaded', function () {
             cargo: currentEmployee.cargo || "",
             fechaingreso: currentEmployee.fechaingreso || "",
             tipocontrato:currentEmployee.tipocontrato || "",
-            salario:currentEmployee.salario || ""
+            salario:currentEmployee.salario || "",
+            selector:selector
+
         };
         console.log(JSON.stringify(data))
+        
         try {
             // Realiza la solicitud POST al servidor
-            const response = await fetch("http://localhost:8000/contrato", {
+            const response = await fetch("http://localhost:8000/documentos", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -357,14 +360,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const editBtn = row.querySelector('.edit');
             const deleteBtn = row.querySelector('.delete');
             const generateBtn = row.querySelector('.generate');
-            const afiliationBtn = row.querySelector('.generate');
-            const certificateBtn = row.querySelector('.generate');
+            const afiliationBtn = row.querySelector('.afiliation');
+            const certificateBtn = row.querySelector('.certificate');
 
             editBtn.addEventListener('click', () => editEmployee(emp.id));
             deleteBtn.addEventListener('click', () => deleteEmployee(emp.id));
-            generateBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
-            afiliationBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
-            certificateBtn.addEventListener('click',() => Send_dataEmployee(emp.id)); 
+            generateBtn.addEventListener('click',() => Send_dataEmployee(emp.id, '1')); 
+            afiliationBtn.addEventListener('click',() => Send_dataEmployee(emp.id, '2')); 
+            certificateBtn.addEventListener('click',() => Send_dataEmployee(emp.id, '3')); 
                 
             employeeTableBody.appendChild(row);
         });

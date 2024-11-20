@@ -61,3 +61,24 @@ button.certificate {
     background-color: #0083fd;
     color: white;
 }
+
+.search-container {
+    margin: 20px 0;
+}
+
+.search-container input {
+    padding: 8px;
+    width: 250px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-container button {
+    padding: 8px 15px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
